@@ -1,6 +1,5 @@
 <?php
 session_start();
-var_dump($_SESSION);
 ?>
 <head>
     <meta charset="UTF-8">
@@ -12,5 +11,5 @@ var_dump($_SESSION);
 <a href="">Se connecter</a>
 <a href="">Liste des Livres</a>
 <hr>
-<h1>BIENVENUE</h1>
+<h1>BIENVENUE <?= $_SESSION['nom']?></h1>
 </body>

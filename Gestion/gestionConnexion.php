@@ -8,16 +8,15 @@ if (isset($_POST['mdp'])){
         'mdp' => $_POST['mdp']
     ));
     $donnee = $req -> fetch();
-    var_dump($donnee);
     session_start();
+    $_SESSION['id'] = $donnee['id_inscrit'];
     $_SESSION['nom'] = $donnee['nom'];
     if ($donnee ['email'] == $_POST['email'] && $donnee['mdp'] == $_POST['mdp']){
         header("location:../index.php");
     }
     else{
-        var_dump($donnee);
         session_destroy();
-        header("location:../connexion.php?erreur = 'Erreur,votre compte n'existe pas'");
+        header("location:../connexion.php?erreur = Erreur, mail ou mot de passe incorrect");
     }
 }
 ?>
