@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['mdp'])){
-    $bdd = new PDO('mysql:host=localhost;dbname=tp1;charset=utf8','root','');
+    $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8','root','');
 
     $req = $bdd -> prepare('SELECT * FROM inscrit WHERE email = :email AND mdp = :mdp');
     $req -> execute(array(
@@ -8,14 +8,16 @@ if (isset($_POST['mdp'])){
         'mdp' => $_POST['mdp']
     ));
     $donnee = $req -> fetch();
+    var_dump($donnee);
     session_start();
     $_SESSION['nom'] = $donnee['nom'];
-    if ($donnee == $_POST['email'] && $donnee == $_POST['mdp']){
-        echo "erreur, votre compte n'existe pas";
-        session_destroy();
+    if ($donnee ['email'] == $_POST['email'] && $donnee['mdp'] == $_POST['mdp']){
+        header("location:../index.php");
     }
     else{
-        header("location:session.php");
+        var_dump($donnee);
+        session_destroy();
+        header("location:../connexion.php?erreur = 'Erreur,votre compte n'existe pas'");
     }
 }
 ?>
