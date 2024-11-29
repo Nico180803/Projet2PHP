@@ -1,0 +1,21 @@
+html{
+    background-color : #eeeeee;
+    font-family: sans-serif;
+}
+body{
+    padding: 32px;
+    margin: auto;
+    width: 600px;
+    background: white
+}
+a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+form{
+    margin-left: 150px;
+}
