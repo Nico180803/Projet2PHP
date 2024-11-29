@@ -47,11 +47,11 @@ $requete->closeCursor();
 
             <form action="listeLivres.php" method="post">
                 <select>
-                    <?php for($i = 0; $i < count($liste); $i++){ ?>
+                    <?php // L'IDEE EST NUL LA FAUT VRAIMENT FAIRE UNE BARRE DE RECHERCHE for($i = 0; $i < count($liste); $i++){ ?>
                         <option value=>
                             <?= $liste[$i]['titre'] ?>
                         </option>
-                    <?php }?>
+                    <?php //}?>
                 </select>
                 <input type="submit" value = confirmer>
             </form>
