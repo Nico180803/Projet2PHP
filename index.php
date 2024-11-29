@@ -7,7 +7,6 @@ session_start();
     <link href="CSS/style.css" rel="stylesheet">
 </head>
 <body>
-<<<<<<< HEAD
 <hr>
 <a href="">S'inscrire</a>
 <a href="">Se connecter</a>
