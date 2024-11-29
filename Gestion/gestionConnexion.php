@@ -11,6 +11,7 @@ if (isset($_POST['mdp'])){
     var_dump($donnee);
     session_start();
     $_SESSION['nom'] = $donnee['nom'];
+    $_SESSION['id_inscrit'] = $donnee['id_inscrit'];
     if ($donnee ['email'] == $_POST['email'] && $donnee['mdp'] == $_POST['mdp']){
         header("location:../index.php");
     }

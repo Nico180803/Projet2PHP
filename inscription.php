@@ -6,6 +6,11 @@
     <link href="CSS/style.css" rel="stylesheet">
 </head>
 <body>
+<hr>
+<a href="inscription.php">S'inscrire</a>
+<a href="connexion.php">Se connecter</a>
+<a href="listeLivres.php">Liste des Livres</a>
+<hr>
 <form action="Gestion/gestionInscrits.php" method="post">
     <table>
         <tr>
