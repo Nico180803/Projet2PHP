@@ -6,6 +6,7 @@
     <link href="CSS/style.css" rel="stylesheet">
 </head>
 <body>
+
 <?php
 if (isset($_GET['erreur_'])){
     echo '<p style="color:red" align="center">'.$_GET['erreur_'];
