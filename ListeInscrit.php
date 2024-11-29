@@ -19,22 +19,20 @@ $requete->closeCursor();
 <h1>LISTE DES INSCRITS</h1>
 <hr>
 <a href="index.php">accueil</a>
-<a href="inscription.php">S'inscrire</a>
-<a href="connexion.php">Se connecter</a>
 <a href="listeLivres.php">Liste des Livres</a>
 <hr>
 
 <table style="width: 100%;" id="example">
     <thead>
     <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
+        <td>prénom</td>
+        <td>nom</td>
+        <td>email</td>
+        <td>tel fixe</td>
+        <td>tel portable</td>
+        <td>rue</td>
+        <td>code postal</td>
+        <td>ville</td>
     </tr>
     </thead>
     <tbody>
@@ -70,7 +68,19 @@ $requete->closeCursor();
     <?php } ?>
     </tbody>
 </table>
+<hr>
+<hr>
+<?php
+if (isset($_SESSION['nom'])){
+    echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
+} else{
+    echo '<a href="inscription.php">S\'inscrire</a>';
+    echo '<a href="connexion.php">Se connecter</a>';
+}
+?>
 
+
+<hr>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>

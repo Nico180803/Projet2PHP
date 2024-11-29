@@ -28,8 +28,5 @@ if (isset($_SESSION['nom'])){
     echo '<a href="connexion.php">Se connecter</a>';
 }
 ?>
-
-
 <hr>
-
 </body>
