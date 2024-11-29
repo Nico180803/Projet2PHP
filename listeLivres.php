@@ -20,104 +20,59 @@ $requete->closeCursor();
     <meta charset="UTF-8">
     <title>BIBLIOTHEQUE-LISTE DES LIVRES</title>
     <link href="CSS/style.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
 </head>
 <body>
 <h1>LISTE DES LIVRES</h1>
 <hr>
-<a href="index.php">accueil</a>
 <a href="inscription.php">S'inscrire</a>
 <a href="connexion.php">Se connecter</a>
 <a href="listeLivres.php">Liste des Livres</a>
 <hr>
 
-<table>
+
+<table id= "example" border="1">
+
+    <thead>
     <tr>
-        <td>
-            <form action="listeLivres.php" method="post">
-                <select name = "auteur" >
-                    <?php for($i = 0; $i < count($liste); $i++){ ?>
-                        <option value=<?= $auteur[$i]['id_auteur']  ?>>
-                            <?= $auteur[$i]['prenom']," ",$auteur[$i]['nom'] ?>
-                        </option>
-                    <?php }?>
-                </select>
-                <input type="submit" value = confirmer>
-            </form>
-        </td>
-        <td>
+        <td>Titre</td>
+        <td>Année</td>
+        <td>Résumé</td>
+        <td>Auteur</td>
 
-            <form action="listeLivres.php" method="post">
-                <select>
-                    <?php // L'IDEE EST NUL LA FAUT VRAIMENT FAIRE UNE BARRE DE RECHERCHE for($i = 0; $i < count($liste); $i++){ ?>
-                        <option value=>
-                            <?= $liste[$i]['titre'] ?>
-                        </option>
-                    <?php //}?>
-                </select>
-                <input type="submit" value = confirmer>
-            </form>
-        </td>
     </tr>
-</table>
-
-
-<?php
-if (!isset($_POST['auteur'])) {
-    ?>
-    <table border="1">
-        <?php
-        for ($i=0; $i < count($liste); $i++) {
-            ?>
-            <tr>
-                <td>
-                    <?= $liste[$i]['titre']?>
-                </td>
-                <td>
-                    <?= $liste[$i]['annee']?>
-                </td>
-                <td>
-                    <?= $liste[$i]['resume']?>
-                </td>
-                <td>
-                    <?= $liste[$i]['prenom']," ", $liste[$i]['nom']?>
-                </td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
+    </thead>
+    <tbody>
     <?php
-}
-if (isset($_POST['auteur'])) {
-    ?>
-    <table border="1">
-        <?php
-        for ($i=0; $i < count($liste); $i++) {
-            if ($liste[$i]['ref_auteur'] == $_POST['auteur']) {
-                ?>
-                <tr>
-                    <td>
-                        <?= $liste[$i]['titre']?>
-                    </td>
-                    <td>
-                        <?= $liste[$i]['annee']?>
-                    </td>
-                    <td>
-                        <?= $liste[$i]['resume']?>
-                    </td>
-                    <td>
-                        <?= $liste[$i]['prenom']," ", $liste[$i]['nom']?>
-                    </td>
-                </tr>
-                <?php
-            }
-        }
+    for ($i=0; $i < count($liste); $i++) {
         ?>
-    </table>
-
-    <?php
-}
-?>
+        <tr>
+            <td>
+                <?= $liste[$i]['titre']?>
+            </td>
+            <td>
+                <?= $liste[$i]['annee']?>
+            </td>
+            <td>
+                <?= $liste[$i]['resume']?>
+            </td>
+            <td>
+                <?= $liste[$i]['prenom']," ", $liste[$i]['nom']?>
+            </td>
+        </tr>
+        <?php
+    }
+    ?>
 </table>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+<script>
+    new DataTable('#example', {
+        responsive: true
+    });
+</script>
