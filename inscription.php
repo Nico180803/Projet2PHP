@@ -6,6 +6,7 @@
     <link href="CSS/style.css" rel="stylesheet">
 </head>
 <body>
+<h1>INSCRIPTION</h1>
 <hr>
 <a href="inscription.php">S'inscrire</a>
 <a href="connexion.php">Se connecter</a>

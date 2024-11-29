@@ -31,6 +31,7 @@ var_dump($liste);
 <body>
 <h1>LISTE DES LIVRES</h1>
 <hr>
+<a href="index.php">accueil</a>
 <a href="inscription.php">S'inscrire</a>
 <a href="connexion.php">Se connecter</a>
 <a href="listeLivres.php">Liste des Livres</a>
