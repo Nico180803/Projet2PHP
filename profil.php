@@ -23,7 +23,11 @@ $requete->closeCursor();
 <hr>
 <a href="index.php">accueil</a>
 <a href="listeLivres.php">Liste des Livres</a>
-<a href="ListeInscrit.php">Liste des Inscrits</a>
+<?php
+if ($_SESSION['id_inscrit'] == 1){
+    echo '<a href="ListeInscrit.php">Liste des Inscrits</a>';
+}
+?>
 <hr>
 <?php
 if(!isset($_POST['modifier'])){
