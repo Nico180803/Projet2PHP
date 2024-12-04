@@ -33,10 +33,13 @@ $requete->closeCursor();
         <td>rue</td>
         <td>code postal</td>
         <td>ville</td>
+        <td>action</td>
+        <td>action</td>
     </tr>
     </thead>
     <tbody>
     <?php
+    $colonne = 0;
     for ($i=0; $i < count($liste); $i++) {
         ?>
         <tr>
@@ -64,8 +67,21 @@ $requete->closeCursor();
             <td>
                 <?= $liste[$i][8]?>
             </td>
+            <td>
+                <form action="Gestion/modification.php" method="post">
+                    <input type="hidden" name="inscrit" value=<?= $colonne ?>>
+                    <input type="submit" value="modifier">
+                </form>
+            </td>
+            <td>
+                <form action="Gestion/supression.php" method="post">
+                    <input type="hidden" name="inscrit" value="<?= $colonne ?>">
+                    <input type="submit" value="supprimer">
+                </form>
+            </td>
         </tr>
-    <?php } ?>
+    <?php $colonne++;
+    } ?>
     </tbody>
 </table>
 <hr>
