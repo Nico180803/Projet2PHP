@@ -9,8 +9,6 @@
 <h1>INSCRIPTION</h1>
 <hr>
 <a href="index.php">accueil</a>
-<a href="connexion.php">Se connecter</a>
-
 <hr>
 <form action="Gestion/gestionInscrits.php" method="post">
     <?php

@@ -9,7 +9,6 @@
 <h1>CONNEXION</h1>
 <hr>
 <a href="index.php">accueil</a>
-<a href="inscription.php">S'inscrire</a>
 <hr>
 
 <?php
