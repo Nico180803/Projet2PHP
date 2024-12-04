@@ -16,5 +16,26 @@ if(isset($_POST['modifierProfil'])){
         'ville' => $_POST['ville'],
         'id' => $_SESSION['id_inscrit']
     ));
+    $requete->closeCursor();
     header('Location: ../profil.php');
+}
+if(isset($_POST['modifierMdp'])){
+    $requete = $bdd->prepare('SELECT mdp FROM inscrit WHERE id_inscrit =:id');
+    $requete->execute(array(
+        'id' => $_SESSION['id_inscrit']
+    ));
+    $mdp=$requete->fetch();
+    $requete->closeCursor();
+    if($_POST['oldMdp'] != $mdp['mdp'] || $_POST['newMdp'] != $_POST['confirmNewMdp']){
+        header('Location: ../profil.php?erreur=Erreur mot de passe incorrect ou le nouveau mot de passe ne correspond pas');
+    }
+    else{
+        $requete = $bdd->prepare('UPDATE inscrit SET mdp = :mdp WHERE id_inscrit =:id');
+        $requete->execute(array(
+            'mdp' => $_POST['newMdp'],
+            'id' => $_SESSION['id_inscrit']
+        ));
+        $requete->closeCursor();
+        header('Location: ../profil.php');
+    }
 }

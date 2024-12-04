@@ -79,22 +79,28 @@ if (isset($_POST['modifier'])) {
     </table>
     <?php
 }
-if (isset($_POST['modifierMotDePasse'])) {
-?>
-
+if (isset($_POST['modifierMotDePasse'])|| isset($_GET['erreur'])) {
+    ?>
+    <?php
+    if (isset($_GET['erreur'])) {
+        ?>
+        <p style="color:red" align="center"><?=$_GET['erreur']?></p>
+        <?php
+    }
+    ?>
     <table>
         <form action="./Gestion/modification.php" method="post">
             <tr>
                 <td><label for="oldMdp"></label>Ancien Mot de Passe : </td>
-                <td><input type="password" id="oldMdp" name="oldMdp" required></td>
+                <td><input type="password" id="oldMdp" name="oldMdp" required minlength="10"></td>
             </tr>
             <tr>
                 <td><label for="newMdp">Nouveau Mot de Passe </label></td>
-                <td><input type="password" id="newMdp" name="newMdp" required></td>
+                <td><input type="password" id="newMdp" name="newMdp" required minlength="10"></td>
             </tr>
             <tr>
                 <td><label for="confirm">Confirmer le nouveau Mot de Passe</label></td>
-                <td><input type="password" id="confirm" name="confirmNewMdp" required></td>
+                <td><input type="password" id="confirm" name="confirmNewMdp" required minlength="10"></td>
             </tr>
             <tr>
                 <td><input type="submit" value="Confirmer"></td>
@@ -103,7 +109,9 @@ if (isset($_POST['modifierMotDePasse'])) {
         </form>
     </table>
 
-<?php
+
+
+    <?php
 }
 ?>
 </body>
