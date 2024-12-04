@@ -15,7 +15,7 @@
 <form action="Gestion/gestionInscrits.php" method="post">
     <?php
     if (isset($_GET['erreur'])){
-        echo '<p style="color:red" align="center">'.$_GET['erreur'].'</p>';
+        echo '<p style="color:red">'.$_GET['erreur'].'</p>';
     }
     ?>
     <table>
