@@ -13,7 +13,7 @@ session_start();
 <hr>
 <?php
 if (isset($_SESSION['nom'])){
-    echo '<h1>BIENVENUE'.$_SESSION['nom'].'</h1>';
+    echo '<h1>BIENVENUE '.$_SESSION['nom'].'</h1>';
 }else{
     echo '<h1>BIENVENUE</h1>';
 }
