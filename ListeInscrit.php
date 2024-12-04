@@ -39,7 +39,6 @@ $requete->closeCursor();
     </thead>
     <tbody>
     <?php
-    $colonne = 0;
     for ($i=0; $i < count($liste); $i++) {
         ?>
         <tr>
@@ -69,18 +68,18 @@ $requete->closeCursor();
             </td>
             <td>
                 <form action="Gestion/modification.php" method="post">
-                    <input type="hidden" name="inscrit" value=<?= $colonne ?>>
+                    <input type="hidden" name="inscrit" value=<?= 1 ?>>
                     <input type="submit" value="modifier">
                 </form>
             </td>
             <td>
                 <form action="Gestion/supression.php" method="post">
-                    <input type="hidden" name="inscrit" value="<?= $colonne ?>">
+                    <input type="hidden" name="inscrit" value="<?= $liste[$i][0] ?>">
                     <input type="submit" value="supprimer">
                 </form>
             </td>
         </tr>
-    <?php $colonne++;
+    <?php
     } ?>
     </tbody>
 </table>
