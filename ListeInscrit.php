@@ -34,7 +34,6 @@ $requete->closeCursor();
         <td>code postal</td>
         <td>ville</td>
         <td>action</td>
-        <td>action</td>
     </tr>
     </thead>
     <tbody>
@@ -67,22 +66,81 @@ $requete->closeCursor();
                 <?= $liste[$i][8]?>
             </td>
             <td>
-                <form action="Gestion/modification.php" method="post">
-                    <input type="hidden" name="inscrit" value=<?= 1 ?>>
-                    <input type="submit" value="modifier">
+                <form action="ListeInscrit.php" method="post">
+                    <input type="hidden" name="inscrit" value=<?= $liste[$i][0] ?>>
+                    <input type="submit" value="modifier" name="modifier">
                 </form>
-            </td>
-            <td>
+                <?php
+                if ($liste[$i][0] != 1){
+                    ?>
                 <form action="Gestion/supression.php" method="post">
                     <input type="hidden" name="inscrit" value="<?= $liste[$i][0] ?>">
                     <input type="submit" value="supprimer">
                 </form>
+                <?php
+                }
+                ?>
             </td>
+
         </tr>
     <?php
     } ?>
     </tbody>
 </table>
+<?php
+if (isset($_POST['modifier'])){
+    $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8','root','');
+
+    $requete = $bdd->prepare('SELECT * FROM inscrit WHERE id_inscrit = :inscrit');
+    $requete->execute(array(
+        'inscrit' => $_POST['inscrit']
+    ));
+    $info = $requete->fetch();
+    $requete->closeCursor();
+    ?>
+    <table>
+        <form action="./Gestion/modification.php" method="post">
+            <tr>
+                <td><label for="nom"></label>Nom : </td>
+                <td><input type="text" id="nom" name="nom" value=<?=$info['nom']?>></td>
+            </tr>
+            <tr>
+                <td><label for="">Prenom : </label></td>
+                <td><input type="text" id="prenom" name="prenom" value=<?=$info['prenom']?>></td>
+            </tr>
+            <tr>
+                <td><label for="email">email : </label></td>
+                <td><input type="text" id="email" name="email" value=<?=$info['email']?>></td>
+            </tr>
+            <tr>
+                <td><label for="tel_fixe">Telephone Fixe : </label></td>
+                <td><input type="text" id="tel_fixe" name="tel_fixe" value=<?=$info['tel_fixe']?>></td>
+            </tr>
+            <tr>
+                <td><label for="tel_port">Telephone Portable : </label></td>
+                <td><input type="text" id="tel_port" name="tel_portable" value=<?=$info['tel_portable']?>></td>
+            </tr>
+            <tr>
+                <td><label for="rue">Rue : </label></td>
+                <td><input type="text" id="rue" name="rue" value=<?=$info['rue']?>></td>
+            </tr>
+            <tr>
+                <td><label for="cp">Code postal : </label></td>
+                <td><input type="text" id="cp" name="cp" value=<?=$info['cp']?>></td>
+            </tr>
+            <tr>
+                <td><label for="ville">Ville : </label></td>
+                <td><input type="text" id="ville" name="ville" value=<?=$info['ville']?>></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Confirmer"></td>
+            </tr>
+            <input type="hidden" name="modifier">
+            <input type="hidden" name="modifierProfil">
+        </form>
+    </table>
+    <?php } ?>
+
 <hr>
 <hr>
 <?php

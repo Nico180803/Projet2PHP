@@ -8,9 +8,9 @@
 <body>
 <h1>INSCRIPTION</h1>
 <hr>
-<a href="inscription.php">S'inscrire</a>
+<a href="index.php">accueil</a>
 <a href="connexion.php">Se connecter</a>
-<a href="listeLivres.php">Liste des Livres</a>
+
 <hr>
 <form action="Gestion/gestionInscrits.php" method="post">
     <?php
@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td>Mot de passe :</td>
-            <td><input type="password" name="mdp" minlength="10" maxlength="30" required></td>
+            <td><input type="password" name="mdp" minlength="10" required></td>
         </tr>
         <tr>
             <td><input type="submit" value="Valider"></td>

@@ -17,7 +17,13 @@ if(isset($_POST['modifierProfil'])){
         'id' => $_SESSION['id_inscrit']
     ));
     $requete->closeCursor();
-    header('Location: ../profil.php');
+    if (isset($_POST['modifier'])){
+        $_SESSION['nom'] = $_POST['nom'];
+        header("Location:../ListeInscrit.php");
+    }else{
+        $_SESSION['nom'] = $_POST['nom'];
+        header("Location:../profil.php");
+    }
 }
 if(isset($_POST['modifierMdp'])){
     $requete = $bdd->prepare('SELECT mdp FROM inscrit WHERE id_inscrit =:id');
