@@ -22,6 +22,7 @@ if (isset($_SESSION['nom'])){
 <hr>
 <?php
 if (isset($_SESSION['nom'])){
+    echo '<a href="profil.php">Mon profil</a>';
     echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
 } else{
     echo '<a href="inscription.php">S\'inscrire</a>';
