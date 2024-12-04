@@ -1,9 +1,14 @@
 <?php
 session_start();
+if (!isset($_SESSION['nom'])){
+    header("location:index.php");
+}
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8','root','');
-//MODIFIER REQUETE POUR PAS AVOIR MDP
-$requete = $bdd->prepare('SELECT * FROM inscrit');
-$requete->execute();
+
+$requete = $bdd->prepare('SELECT * FROM inscrit WHERE id_inscrit = :inscrit');
+$requete->execute(array(
+        'inscrit' => $_SESSION['id_inscrit']
+));
 $info = $requete->fetch();
 $requete->closeCursor();
 ?>
@@ -16,9 +21,9 @@ $requete->closeCursor();
 </head>
 <body>
 <hr>
-<a href="inscription.php">S'inscrire</a>
-<a href="connexion.php">Se connecter</a>
+<a href="index.php">accueil</a>
 <a href="listeLivres.php">Liste des Livres</a>
+<a href="ListeInscrit.php">Liste des Inscrits</a>
 <hr>
 <?php
 if(!isset($_POST['modifier'])){
@@ -114,6 +119,9 @@ if (isset($_POST['modifierMotDePasse'])|| isset($_GET['erreur'])) {
     <?php
 }
 ?>
+<hr>
+<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>
+<hr>
 </body>
 </html>
 
