@@ -34,7 +34,6 @@ $requete->closeCursor();
         <td>code postal</td>
         <td>ville</td>
         <td>action</td>
-        <td>action</td>
     </tr>
     </thead>
     <tbody>
@@ -71,13 +70,12 @@ $requete->closeCursor();
                     <input type="hidden" name="inscrit" value=<?= 1 ?>>
                     <input type="submit" value="modifier">
                 </form>
-            </td>
-            <td>
                 <form action="Gestion/supression.php" method="post">
                     <input type="hidden" name="inscrit" value="<?= $liste[$i][0] ?>">
                     <input type="submit" value="supprimer">
                 </form>
             </td>
+
         </tr>
     <?php
     } ?>
