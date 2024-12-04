@@ -57,5 +57,11 @@
     </table>
     <a href="connexion.php">Vous avez déja un compte ? connectez-vous</a>
 </form>
+<?php
+if (isset($_GET['confirm'])){
+    echo '<p style="color:green" align="center">'.$_GET['confirm'].'</p>';
+}
+?>
+
 </body>
 </html>

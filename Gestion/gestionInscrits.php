@@ -1,7 +1,6 @@
 <?php
 if (isset($_POST['mdp'])){
     $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8','root','');
-
     $req = $bdd -> prepare('INSERT INTO inscrit(nom, prenom, email, tel_fixe, tel_portable, rue, cp, ville, mdp) VALUES(:nom, :prenom, :email, :tel_fixe, :tel_portable, :rue, :cp, :ville, :mdp)');
     $req -> execute(array(
         'nom' => $_POST['nom'],
@@ -17,5 +16,5 @@ if (isset($_POST['mdp'])){
 
     $req -> closeCursor();
 }
-header("location:../inscription.php");
+header("location:../inscription.php?confirm=Inscription bien prise en compte !");
 ?>
