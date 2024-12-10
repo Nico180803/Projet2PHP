@@ -65,6 +65,17 @@ $requete->closeCursor();
     }
     ?>
 </table>
+<hr>
+<?php
+if (isset($_SESSION['nom'])){
+    echo '<a href="profil.php">Mon profil</a>';
+    echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
+} else{
+    echo '<a href="inscription.php">S\'inscrire</a>';
+    echo '<a href="connexion.php">Se connecter</a>';
+}
+?>
+<hr>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
