@@ -1,7 +1,8 @@
 <?php
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
-
+//LE NULL MARCHE DANS LE SELECT PROBLEME BDD METTRE A NUL
+//Suppression IMPOSSIBLE DUE AU PARAMETRE DE LA BDD
 
 $requete = $bdd->prepare('SELECT livre.titre, livre.annee, livre.resume, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
 LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
@@ -11,10 +12,16 @@ $requete->execute();
 $liste = $requete->fetchAll();
 $requete->closeCursor();
 
+$requete = $bdd->prepare('SELECT id_livre FROM livre;');
+$requete->execute();
+$listeId = $requete->fetchAll();
+$requete->closeCursor();
+
 $requete = $bdd->prepare('SELECT * FROM auteur;');
 $requete->execute();
 $listeAuteur = $requete->fetchAll();
 $requete->closeCursor();
+
 ?>
 <head>
     <meta charset="UTF-8">
@@ -34,7 +41,7 @@ if (isset($_SESSION['id_inscrit'])){
     if($_SESSION['id_inscrit'] == 1){
         ?>
         <form action="listeLivres.php" method="post">
-            <input type="submit" name="ajout">
+            <input type="submit" name="ajout" value="ajouter un livre">
         </form>
         <?php
     }
@@ -42,25 +49,50 @@ if (isset($_SESSION['id_inscrit'])){
 
 if (isset($_POST['ajout'])){
     ?>
-        <form action="" method="post">
-            <label>Titre : </label>
-            <input type="text" name="titre" required>
-            <label>Année : </label>
-            <input type="number" name="annee" required>
-            <label>Titre : </label>
-            <textarea name="resume" required></textarea>
-            <label>Auteur : </label>
-            <select name="auteur" required>
-                <?php
-                for ($i = 0;$i < count($listeAuteur);$i++){
-                    ?>
-                    <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
-                    <?php
-                } ?>
-                <option value="NULL">Aucun</option>
-            </select>
-        </form>
+    <form action="Gestion/gestionAjout.php" method="post">
+        <label>Titre : </label>
+    <input type="text" name="titre" required>
+    <label>Année : </label>
+    <input type="number" name="annee" required>
+    <label>Résume : </label>
+    <textarea name="resume" required></textarea>
+    <label>Auteur : </label>
+    <select name="auteur" required>
         <?php
+        for ($i = 0;$i < count($listeAuteur);$i++){
+            ?>
+            <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+            <?php
+        } ?>
+        <option value="NULL">Aucun</option>
+    </select>
+    <input type="submit" name="ajout" value="ajouter">
+    </form>
+    <?php
+}
+if (isset($_POST['modifLivre'])){
+    var_dump($liste);
+    ?>
+    <form action="Gestion/gestionAjout.php" method="post">
+        <label>Titre : </label>
+        <input type="text" name="titre" required value="<?= $liste[$_POST['id']][0] ?>">
+        <label>Année : </label>
+        <input type="number" name="annee" required value="<?= $liste[$_POST['id']][1] ?>">
+        <label>Résume : </label>
+        <textarea name="resume" required ><?= $liste[$_POST['id']][2] ?></textarea>
+        <label>Auteur : </label>
+        <select name="auteur" required value="<?= $liste[$_POST['id']][3] ?>">
+            <?php
+            for ($i = 0;$i < count($listeAuteur);$i++){
+                ?>
+                <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+                <?php
+            } ?>
+            <option value="NULL">Aucun</option>
+        </select>
+        <input type="submit" name="ajout" value="ajouter">
+    </form>
+    <?php
 }
 ?>
 <table id= "example" border="1">
@@ -113,12 +145,12 @@ if (isset($_POST['ajout'])){
                     if($_SESSION['id_inscrit'] == 1){
                         ?>
                         <td>
-                            <form action="Gestion/modification.php" method="post">
-                                <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <form action="listeLivres.php" method="post">
+                                <input type="hidden" name="id" value="<?= $listeId[$i][0] ?>">
                                 <input type="submit" name="modifLivre" value="Modifier">
                             </form>
                             <form action="Gestion/supression.php" method="post">
-                                <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                                <input type="hidden" name="id" value="<?= $listeId[$i][0] ?>">
                                 <input type="submit" name="supLivre" value="Supprimer">
                             </form>
                         </td>
