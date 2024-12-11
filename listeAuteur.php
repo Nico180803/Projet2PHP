@@ -22,9 +22,8 @@ if (isset($_SESSION['id_auteur'])) {}
 <body>
 <h1>LISTE DES LIVRES</h1>
 <hr>
-<a href="inscription.php">S'inscrire</a>
-<a href="connexion.php">Se connecter</a>
-<a href="listeLivres.php">Liste des Livres</a>
+<a href="index.php">accueil</a>
+<a href="listeLivres.php">Liste des livres</a>
 <hr>
 
 
@@ -68,7 +67,17 @@ if (isset($_SESSION['id_auteur'])) {}
     }
     ?>
 </table>
-
+<hr>
+<?php
+if (isset($_SESSION['nom'])){
+    echo '<a href="profil.php">Mon profil</a>';
+    echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
+} else{
+    echo '<a href="inscription.php">S\'inscrire</a>';
+    echo '<a href="connexion.php">Se connecter</a>';
+}
+?>
+<hr>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>

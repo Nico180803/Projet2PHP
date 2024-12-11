@@ -9,8 +9,8 @@ session_start();
 <body>
 <hr>
 <a href="index.php">accueil</a>
-<a href="listeLivres.php">Liste des Livres</a>
-<a href="listeAuteur.php">Liste des Auteurs</a>
+<a href="listeLivres.php">Liste des livres</a>
+<a href="listeAuteur.php">Liste des auteurs</a>
 <hr>
 <?php
 if (isset($_SESSION['nom'])){

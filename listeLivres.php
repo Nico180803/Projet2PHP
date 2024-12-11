@@ -2,7 +2,6 @@
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
 
-//J'arrive pas à faire le tri et l'affichage des auteurs.
 
 $requete = $bdd->prepare('SELECT livre.titre, livre.annee, livre.resume, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
 LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
@@ -27,12 +26,43 @@ $requete->closeCursor();
 <body>
 <h1>LISTE DES LIVRES</h1>
 <hr>
-<a href="inscription.php">S'inscrire</a>
-<a href="connexion.php">Se connecter</a>
-<a href="listeLivres.php">Liste des Livres</a>
+<a href="index.php">accueil</a>
+<a href="listeAuteur.php">Liste des auteurs</a>
 <hr>
+<?php
+if (isset($_SESSION['id_inscrit'])){
+    if($_SESSION['id_inscrit'] == 1){
+        ?>
+        <form action="listeLivres.php" method="post">
+            <input type="submit" name="ajout">
+        </form>
+        <?php
+    }
+}
 
-
+if (isset($_POST['ajout'])){
+    ?>
+        <form action="" method="post">
+            <label>Titre : </label>
+            <input type="text" name="titre" required>
+            <label>Année : </label>
+            <input type="number" name="annee" required>
+            <label>Titre : </label>
+            <textarea name="resume" required></textarea>
+            <label>Auteur : </label>
+            <select name="auteur" required>
+                <?php
+                for ($i = 0;$i < count($listeAuteur);$i++){
+                    ?>
+                    <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+                    <?php
+                } ?>
+                <option value="NULL">Aucun</option>
+            </select>
+        </form>
+        <?php
+}
+?>
 <table id= "example" border="1">
 
     <thead>
@@ -41,6 +71,15 @@ $requete->closeCursor();
         <td>Année</td>
         <td>Résumé</td>
         <td>Auteur</td>
+        <?php
+        if (isset($_SESSION['id_inscrit'])){
+            if($_SESSION['id_inscrit'] == 1){
+                ?>
+                <td>Action</td>
+                <?php
+            }
+        }
+        ?>
 
     </tr>
     </thead>
@@ -68,24 +107,26 @@ $requete->closeCursor();
                     <?= $liste[$i]['nom']?>
                 </td>
 
-            <td>
+
                 <?php
                 if (isset($_SESSION['id_inscrit'])){
                     if($_SESSION['id_inscrit'] == 1){
                         ?>
-                        <form action="Gestion/modification.php" method="post">
-                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
-                            <input type="submit" name="modifLivre" value="Modifier">
-                        </form>
-                        <form action="Gestion/supression.php" method="post">
-                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
-                            <input type="submit" name="supLivre" value="Supprimer">
-                        </form>
+                        <td>
+                            <form action="Gestion/modification.php" method="post">
+                                <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                                <input type="submit" name="modifLivre" value="Modifier">
+                            </form>
+                            <form action="Gestion/supression.php" method="post">
+                                <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                                <input type="submit" name="supLivre" value="Supprimer">
+                            </form>
+                        </td>
                         <?php
                     }
                 }
                 ?>
-            </td>
+
             </tr>
             <?php
 
@@ -93,7 +134,17 @@ $requete->closeCursor();
     }
     ?>
 </table>
-
+<hr>
+<?php
+if (isset($_SESSION['nom'])){
+    echo '<a href="profil.php">Mon profil</a>';
+    echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
+} else{
+    echo '<a href="inscription.php">S\'inscrire</a>';
+    echo '<a href="connexion.php">Se connecter</a>';
+}
+?>
+<hr>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
