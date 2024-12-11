@@ -2,10 +2,15 @@
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
 
-$requete = $bdd->prepare('SELECT auteur.id_auteur, CONCAT(auteur.prenom, " ", auteur.nom) as nom, auteur.date_naissance, pays.nom AS pays FROM auteur
+$requete = $bdd->prepare('SELECT auteur.id_auteur, CONCAT(auteur.prenom, " ", auteur.nom) as nom, auteur.date_naissance, pays.nom_pays AS pays FROM auteur
 LEFT JOIN pays ON auteur.ref_pays = pays.id_pays');
 $requete->execute();
 $auteur = $requete->fetchAll();
+$requete->closeCursor();
+
+$requete=$bdd->prepare('SELECT * FROM pays');
+$requete->execute();
+$pays = $requete->fetchAll();
 $requete->closeCursor();
 ?>
 
@@ -30,8 +35,48 @@ if(isset($_SESSION['id_inscrit'])){
 ?>
 <a href="listeLivres.php">Liste des livres</a>
 <hr>
-
+<form action="listeAuteur.php" method="post">
+    <table>
+        <tr>
+            <td><input type="submit" name="ajout" value="Ajouter un auteur"> </td>
+        </tr>
+    </table>
+</form>
 <?php
+if(isset($_POST['ajout'])){
+    ?>
+    <form action="Gestion/gestionAuteurs.php" method="post">
+        <table>
+            <tr>
+                <td>Nom :</td>
+                <td><input type="text" name="nom" required></td>
+            </tr>
+            <tr>
+                <td>Prénom :</td>
+                <td><input type="text" name="prenom" required></td>
+            </tr>
+            <tr>
+                <td>Date de naissance :</td>
+                <td><input type="date" name="date" required></td>
+            </tr>
+            <tr>
+                <td>Pays :</td>
+                <td><select name="pays">
+                        <?php
+                        for ($i = 0;$i < count($pays);$i++){
+                            ?>
+                            <option value="<?= $pays[$i]['id_pays'] ?>"><?=  $pays[$i]['nom_pays'] ?></option>
+                            <?php
+                        } ?>
+                    </select</td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="ajout" value="Confirmer"></td>
+            </tr>
+        </table>
+    </form>
+    <?php
+}
 if (isset($_POST['modifier'])) {
     $requete=$bdd->prepare('SELECT * FROM auteur
          INNER JOIN pays ON auteur.ref_pays = pays.id_pays
@@ -39,27 +84,40 @@ if (isset($_POST['modifier'])) {
     $requete->execute(array('id_auteur' => $_POST['auteur']));
     $auteurmodif = $requete->fetch();
     $requete->closeCursor();
-    var_dump($auteurmodif);
 
     ?>
     <table>
-        <form>
+        <form action="Gestion/gestionAuteurs.php" method="post">
             <tr>
-                <td></td>
-                <td><input type="text" name="nom" value=""></td>
+                <td>Nom :</td>
+                <td><input type="text" name="nom" value="<?= $auteurmodif['nom'] ?>"></td>
             </tr>
             <tr>
-                <td><input type="text" name="prenom" value=""></td>
-                <td></td>
+                <td>Prenom :</td>
+                <td><input type="text" name="prenom" value="<?= $auteurmodif['prenom'] ?>"></td>
             </tr>
             <tr>
-                <td></td>
-                <td><input type="date" name="naissance"></td>
+                <td>Date de naissance :</td>
+                <td><input type="date" name="naissance" value="<?= $auteurmodif['date_naissance'] ?>"></td>
             </tr>
             <tr>
-                <td></td>
-                <td><input type="text" name="pays"></td>
+                <td>Pays :</td>
+                <td><select name="pays" required>
+                        <option value="<?= $auteurmodif['id_pays'] ?>"><?= $auteurmodif['nom_pays'] ?></option>
+                        <?php
+                        for ($i = 0;$i < count($pays);$i++){
+                            ?>
+                            <option value="<?= $pays[$i]['id_pays'] ?>"><?=  $pays[$i]['nom_pays'] ?></option>
+                            <?php
+                        } ?>
+                    </select>
+                </td>
             </tr>
+            <tr>
+                <input type="hidden" name="auteur" value=<?= $_POST['auteur'] ?>>
+                <td><input type="submit" name="modifier" value="Confirmer"> </td>
+            </tr>
+
         </form>
     </table>
     <?php
@@ -74,36 +132,57 @@ if (isset($_POST['modifier'])) {
         <td>Auteur</td>
         <td>Date de naissance</td>
         <td>Nationalité</td>
-        <td>Actions</td>
+        <?php
+        if (isset($_SESSION['id_inscrit'])){
+            if ($_SESSION['id_inscrit'] == 1){
+                ?>
+                <td>Action</td>
+                <?php
+            }
+        }
+        ?>
 
     </tr>
     </thead>
     <tbody>
     <?php
     for ($i=0; $i < count($auteur); $i++) {
-        ?>
-        <tr>
-            <td>
-                <?= $auteur[$i]['nom']?>
-            </td>
-            <td>
-                <?= $auteur[$i]['date_naissance']?>
-            </td>
-            <td>
-                <?= $auteur[$i]['pays']?>
-            </td>
-            <td>
-                <form action="Gestion/gestionAuteurs.php" method="post">
-                    <input type="submit" name="supprimer" value="Supprimer">
-                    <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
-                </form>
-                <form action="listeAuteur.php" method="post">
-                    <input type="submit" name="modifier" value="Modifier">
-                    <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
-                </form>
-            </td>
-        </tr>
-        <?php
+        if ($i != 5){
+            ?>
+            <tr>
+                <td>
+                    <?= $auteur[$i]['nom']?>
+                </td>
+                <td>
+                    <?= $auteur[$i]['date_naissance']?>
+                </td>
+                <td>
+                    <?= $auteur[$i]['pays']?>
+                </td>
+                <?php
+                if (isset($_SESSION['id_inscrit'])){
+                    if ($_SESSION['id_inscrit'] == 1){
+                        ?>
+                        <td>
+                            <form action="Gestion/gestionAuteurs.php" method="post">
+                                <input type="submit" name="supprimer" value="Supprimer">
+                                <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
+                            </form>
+                            <form action="listeAuteur.php" method="post">
+                                <input type="submit" name="modifier" value="Modifier">
+                                <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
+                            </form>
+                        </td>
+                        <?php
+                    }
+                }
+                ?>
+
+            </tr>
+
+
+            <?php
+        }
     }
     ?>
 </table>

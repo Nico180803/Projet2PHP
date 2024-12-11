@@ -58,49 +58,81 @@ if (isset($_SESSION['id_inscrit'])){
 }
 
 if (isset($_POST['ajout'])){
+
     ?>
     <form action="Gestion/gestionLivres.php" method="post">
-        <label>Titre : </label>
-    <input type="text" name="titre" required>
-    <label>Année : </label>
-    <input type="number" name="annee" required>
-    <label>Résume : </label>
-    <textarea name="resume" required></textarea>
-    <label>Auteur : </label>
-    <select name="auteur" required>
-        <?php
-        for ($i = 0;$i < count($listeAuteur);$i++){
-            ?>
-            <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
-            <?php
-        } ?>
-        <option value="NULL">Aucun</option>
-    </select>
-    <input type="submit" name="ajout" value="ajouter">
+        <table>
+            <tr>
+                <td><label>Titre : </label></td>
+                <td><input type="text" name="titre" required></td>
+            </tr>
+            <tr>
+                <td><label>Année : </label></td>
+                <td><input type="number" name="annee" required></td>
+            </tr>
+            <tr>
+                <td><label>Résume : </label></td>
+                <td><textarea name="resume" required></textarea></td>
+            </tr>
+            <tr>
+                <td><label>Auteur : </label></td>
+                <td><select name="auteur" required>
+                        <?php
+                        for ($i = 0;$i < count($listeAuteur);$i++){
+                            ?>
+                            <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+                            <?php
+                        } ?>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="ajout" value="Confirmer"></td>
+            </tr>
+        </table>
     </form>
     <?php
 }
 if (isset($_POST['modifLivre'])){
-
+    $requete=$bdd->prepare('SELECT *  FROM livre
+LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
+LEFT JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur WHERE id_livre = :id');
+    $requete->execute(array('id' => $_POST['id']));
+    $modif = $requete->fetch();
+    $requete->closeCursor();
     ?>
     <form action="Gestion/gestionLivres.php" method="post">
-        <label>Titre : </label>
-        <input type="text" name="titre" required value="<?= $liste[$_POST['idListe']][1] ?>">
-        <label>Année : </label>
-        <input type="number" name="annee" required value="<?= $liste[$_POST['idListe']][2] ?>">
-        <label>Résume : </label>
-        <textarea name="resume" required ><?= $liste[$_POST['idListe']][3] ?></textarea>
-        <label>Auteur : </label>
-        <select name="auteur" required>
-            <?php
-            for ($i = 0;$i < count($listeAuteur);$i++){
-                ?>
-                <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
-                <?php
-            } ?>
-        </select>
-        <input type="hidden" name="id" value="<?= $_POST['id'] ?>">
-        <input type="submit" name="modifLivre" value="modifier">
+        <table>
+            <tr>
+                <td><label>Titre : </label></td>
+                <td><input type="text" name="titre" required value="<?= $modif['titre'] ?>"></td>
+            </tr>
+            <tr>
+                <td><label>Année : </label></td>
+                <td><input type="number" name="annee" required value="<?= $modif['annee'] ?>"></td>
+            </tr>
+            <tr>
+                <td><label>Résume : </label></td>
+                <td><textarea name="resume" required ><?= $modif['resume'] ?></textarea></td>
+            </tr>
+            <tr>
+                <td><label>Auteur : </label></td>
+                <td><select name="auteur" required>
+                        <option value="<?= $modif['id_auteur'] ?>"><?= $modif['nom']." ".$modif['prenom'] ?></option>
+                        <?php
+                        for ($i = 0;$i < count($listeAuteur);$i++){
+                            ?>
+                            <option value="<?= $listeAuteur[$i][0] ?>"><?=  $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+                            <?php
+                        } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="hidden" name="id" value="<?= $_POST['id'] ?>">
+                <input type="submit" name="modifLivre" value="Confirmer"></td>
+
+            </tr>
+        </table>
     </form>
     <?php
 }
