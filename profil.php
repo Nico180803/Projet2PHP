@@ -23,9 +23,11 @@ $requete->closeCursor();
 <hr>
 <a href="index.php">accueil</a>
 <a href="listeLivres.php">Liste des Livres</a>
+<a href="listeAuteur.php">Liste des Auteurs</a>
 <?php
 if ($_SESSION['id_inscrit'] == 1){
     echo '<a href="ListeInscrit.php">Liste des Inscrits</a>';
+    echo '<a href="listeEmprunt.php">Liste des Emprunts</a>';
 }
 ?>
 <hr>

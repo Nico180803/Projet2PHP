@@ -10,6 +10,7 @@ session_start();
 <hr>
 <a href="index.php">accueil</a>
 <a href="listeLivres.php">Liste des Livres</a>
+<a href="listeAuteur.php">Liste des Auteurs</a>
 <hr>
 <?php
 if (isset($_SESSION['nom'])){

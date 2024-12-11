@@ -4,16 +4,12 @@ $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '
 
 //J'arrive pas à faire le tri et l'affichage des auteurs.
 
-$requete = $bdd->prepare('SELECT * FROM livre
-INNER JOIN ecrire ON livre.id_livre=ecrire.ref_livre
-INNER JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur;');
+$requete = $bdd->prepare('SELECT livre.titre, livre.annee, livre.resume, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
+LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
+LEFT JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur
+order by livre.titre');
 $requete->execute();
 $liste = $requete->fetchAll();
-$requete->closeCursor();
-
-$requete = $bdd->prepare('SELECT * FROM auteur');
-$requete->execute();
-$auteur = $requete->fetchAll();
 $requete->closeCursor();
 ?>
 <head>
@@ -45,23 +41,31 @@ $requete->closeCursor();
     </thead>
     <tbody>
     <?php
-    for ($i=0; $i < count($liste); $i++) {
-        ?>
-        <tr>
-            <td>
-                <?= $liste[$i]['titre']?>
-            </td>
-            <td>
-                <?= $liste[$i]['annee']?>
-            </td>
-            <td>
-                <?= $liste[$i]['resume']?>
-            </td>
-            <td>
-                <?= $liste[$i]['prenom']," ", $liste[$i]['nom']?>
-            </td>
-        </tr>
-        <?php
+    $j = count($liste);
+    for ($i=0; $i < $j; $i++) {
+
+        if ($liste[$i]['titre'] == $liste[$i+1]['titre']) {
+            $liste[$i+1]['nom'] = $liste[$i]['nom'].", ".$liste[$i+1]['nom'];
+            $j=$j-1;
+        }else{
+            ?>
+            <tr>
+                <td>
+                    <?= $liste[$i]['titre']?>
+                </td>
+                <td>
+                    <?= $liste[$i]['annee']?>
+                </td>
+                <td>
+                    <?= $liste[$i]['resume']?>
+                </td>
+                <td>
+                    <?= $liste[$i]['nom']?>
+                </td>
+            </tr>
+            <?php
+
+        }
     }
     ?>
 </table>
