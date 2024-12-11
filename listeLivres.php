@@ -5,10 +5,6 @@ $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '
 //LE NULL MARCHE DANS LE SELECT PROBLEME BDD METTRE A NUL
 //Suppression IMPOSSIBLE DUE AU PARAMETRE DE LA BDD
 
-
-
-
-
 $requete = $bdd->prepare('SELECT livre.titre, livre.annee, livre.resume, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
 LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
 LEFT JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur
@@ -78,7 +74,6 @@ if (isset($_POST['ajout'])){
     <?php
 }
 if (isset($_POST['modifLivre'])){
-    var_dump($liste);
     ?>
     <form action="Gestion/gestionAjout.php" method="post">
         <label>Titre : </label>
@@ -104,7 +99,6 @@ if (isset($_POST['modifLivre'])){
 ?>
 
 <table id= "example" border="1">
-
     <thead>
     <tr>
         <td>Titre</td>
@@ -120,7 +114,6 @@ if (isset($_POST['modifLivre'])){
             }
         }
         ?>
-
     </tr>
     </thead>
     <tbody>
@@ -146,8 +139,6 @@ if (isset($_POST['modifLivre'])){
                 <td>
                     <?= $liste[$i]['nom']?>
                 </td>
-
-            <td>
                 <?php
                 if (isset($_SESSION['id_inscrit'])){
                     if($_SESSION['id_inscrit'] == 1){
@@ -162,19 +153,10 @@ if (isset($_POST['modifLivre'])){
                                 <input type="submit" name="supLivre" value="Supprimer">
                             </form>
                         </td>
-                        <form action="Gestion/modification.php" method="post">
-                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
-                            <input type="submit" name="modifLivre" value="Modifier">
-                        </form>
-                        <form action="Gestion/supression.php" method="post">
-                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
-                            <input type="submit" name="supLivre" value="Supprimer">
-                        </form>
                         <?php
                     }
                 }
                 ?>
-            </td>
             </tr>
             <?php
 
