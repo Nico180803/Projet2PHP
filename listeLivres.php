@@ -1,8 +1,7 @@
 <?php
 session_start();
+var_dump($_SESSION);
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
-
-//J'arrive pas à faire le tri et l'affichage des auteurs.
 
 $requete = $bdd->prepare('SELECT * FROM livre
 INNER JOIN ecrire ON livre.id_livre=ecrire.ref_livre
@@ -11,9 +10,9 @@ $requete->execute();
 $liste = $requete->fetchAll();
 $requete->closeCursor();
 
-$requete = $bdd->prepare('SELECT * FROM auteur');
+$requete = $bdd->prepare('SELECT * FROM auteur;');
 $requete->execute();
-$auteur = $requete->fetchAll();
+$listeAuteur = $requete->fetchAll();
 $requete->closeCursor();
 ?>
 <head>
@@ -30,7 +29,41 @@ $requete->closeCursor();
 <a href="connexion.php">Se connecter</a>
 <a href="listeLivres.php">Liste des Livres</a>
 <hr>
-
+<?php
+if (isset($_SESSION['id_inscrit'])){
+    if($_SESSION['id_inscrit'] == 1){
+        ?>
+        <form action="listeLivres.php" method="post">
+            <input type="submit" name="ajout" value="Ajout de livre">
+        </form>
+<?php
+    }
+}
+if (isset($_POST['ajout'])){
+    ?>
+    <form method="post" action="Gestion/gestionAjout.php">
+        <label>titre : </label>
+        <input type="text" name="titre" required>
+        <label>année : </label>
+        <input type="number" name="annee" required>
+        <label>resume : </label>
+        <textarea name="resume" required></textarea>
+        <label>Auteur : </label>
+        <select name="auteur">
+            <?php
+            for ($i = 0;$i < count($listeAuteur);$i++){
+                ?>
+                <option value="<?= $listeAuteur[$i]['id_auteur'] ?>"><?= $listeAuteur[$i]['nom']." ".$listeAuteur[$i]['prenom'] ?></option>
+            <?php
+            }
+            ?>
+            <option value="NULL">Aucun</option>
+        </select>
+        <input type="submit" name="ajout">
+    </form>
+<?php
+}
+?>
 
 <table id= "example" border="1">
 
@@ -40,6 +73,7 @@ $requete->closeCursor();
         <td>Année</td>
         <td>Résumé</td>
         <td>Auteur</td>
+        <td>Action</td>
 
     </tr>
     </thead>
@@ -59,6 +93,24 @@ $requete->closeCursor();
             </td>
             <td>
                 <?= $liste[$i]['prenom']," ", $liste[$i]['nom']?>
+            </td>
+            <td>
+                <?php
+                if (isset($_SESSION['id_inscrit'])){
+                    if($_SESSION['id_inscrit'] == 1){
+                        ?>
+                        <form action="Gestion/modification.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="modifLivre" value="Modifier">
+                        </form>
+                        <form action="Gestion/supression.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="supLivre" value="Supprimer">
+                        </form>
+                <?php
+                    }
+                }
+                ?>
             </td>
         </tr>
         <?php

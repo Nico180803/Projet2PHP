@@ -44,6 +44,12 @@ if(!isset($_POST['modifierMotDePasse'])){
     </form>
     <?php
 }
+?>
+<form action="Gestion/gestionDeconnexion.php" method="post">
+    <input type="hidden" name="id" value="<?= $_SESSION['id_inscrit'] ?>">
+    <input type="submit" name ="supprimerMonCompte" value="Supprimer mon compte">
+</form>
+<?php
 if (isset($_POST['modifier'])) {
     ?>
     <table>
@@ -117,9 +123,6 @@ if (isset($_POST['modifierMotDePasse'])|| isset($_GET['erreur'])) {
             <input type="hidden" name="modifierMdp">
         </form>
     </table>
-
-
-
     <?php
 }
 ?>
