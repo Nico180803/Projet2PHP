@@ -41,6 +41,7 @@ $requete->closeCursor();
         <td>Année</td>
         <td>Résumé</td>
         <td>Auteur</td>
+        <td>Action</td>
 
     </tr>
     </thead>
