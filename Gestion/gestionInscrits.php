@@ -13,8 +13,8 @@ if (isset($_POST['mdp'])) {
         if ($mail[$i]['email'] == $_POST['email']) {
             var_dump($mail[$i]['email']);
             echo count($mail);
-        header('location: ../inscription.php?erreur=Cette Adresse Mail est déja associé à un compte !');
-        exit();
+            header('location: ../inscription.php?erreur=Cette Adresse Mail est déja associé à un compte !');
+            exit();
         }
     }
         $req = $bdd->prepare('INSERT INTO inscrit(nom, prenom, email, tel_fixe, tel_portable, rue, cp, ville, mdp) VALUES(:nom, :prenom, :email, :tel_fixe, :tel_portable, :rue, :cp, :ville, :mdp)');
@@ -31,6 +31,6 @@ if (isset($_POST['mdp'])) {
         ));
 
         $req->closeCursor();
-//header("location:../inscription.php?confirm=Inscription bien prise en compte !");
+        header("location:../inscription.php?confirm=Inscription bien prise en compte !");
 }
 ?>

@@ -11,6 +11,11 @@ order by livre.titre');
 $requete->execute();
 $liste = $requete->fetchAll();
 $requete->closeCursor();
+
+$requete = $bdd->prepare('SELECT * FROM auteur;');
+$requete->execute();
+$listeAuteur = $requete->fetchAll();
+$requete->closeCursor();
 ?>
 <head>
     <meta charset="UTF-8">
@@ -62,6 +67,25 @@ $requete->closeCursor();
                 <td>
                     <?= $liste[$i]['nom']?>
                 </td>
+
+            <td>
+                <?php
+                if (isset($_SESSION['id_inscrit'])){
+                    if($_SESSION['id_inscrit'] == 1){
+                        ?>
+                        <form action="Gestion/modification.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="modifLivre" value="Modifier">
+                        </form>
+                        <form action="Gestion/supression.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="supLivre" value="Supprimer">
+                        </form>
+                        <?php
+                    }
+                }
+                ?>
+            </td>
             </tr>
             <?php
 

@@ -9,13 +9,11 @@
 <h1>INSCRIPTION</h1>
 <hr>
 <a href="index.php">accueil</a>
-<a href="connexion.php">Se connecter</a>
-
 <hr>
 <form action="Gestion/gestionInscrits.php" method="post">
     <?php
     if (isset($_GET['erreur'])){
-        echo '<p style="color:red" align="center">'.$_GET['erreur'].'</p>';
+        echo '<p style="color:red">'.$_GET['erreur'].'</p>';
     }
     ?>
     <table>
