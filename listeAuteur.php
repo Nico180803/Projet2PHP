@@ -7,24 +7,56 @@ LEFT JOIN pays ON auteur.ref_pays = pays.id_pays');
 $requete->execute();
 $auteur = $requete->fetchAll();
 $requete->closeCursor();
-
-
-if (isset($_SESSION['id_auteur'])) {}
 ?>
 
 <head>
     <meta charset="UTF-8">
-    <title>BIBLIOTHEQUE-LISTE DES LIVRES</title>
+    <title>BIBLIOTHEQUE-LISTE DES AUTEURS</title>
     <link href="CSS/style.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
 </head>
 <body>
-<h1>LISTE DES LIVRES</h1>
+<h1>LISTE DES AUTEURS</h1>
 <hr>
 <a href="index.php">accueil</a>
 <a href="listeLivres.php">Liste des livres</a>
 <hr>
+
+<?php
+if (isset($_POST['modifier'])) {
+    $requete=$bdd->prepare('SELECT * FROM auteur
+         INNER JOIN pays ON auteur.ref_pays = pays.id_pays
+         WHERE id_auteur =:id_auteur');
+    $requete->execute(array('id_auteur' => $_POST['auteur']));
+    $auteurmodif = $requete->fetch();
+    $requete->closeCursor();
+    var_dump($auteurmodif);
+
+    ?>
+    <table>
+        <form>
+            <tr>
+                <td></td>
+                <td><input type="text" name="nom" value=""></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="prenom" value=""></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="date" name="naissance"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="text" name="pays"></td>
+            </tr>
+        </form>
+    </table>
+    <?php
+}
+?>
 
 
 <table id= "example" border="1">
@@ -57,10 +89,10 @@ if (isset($_SESSION['id_auteur'])) {}
                     <input type="submit" name="supprimer" value="Supprimer">
                     <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
                 </form>
-                <form>
+                <form action="listeAuteur.php" method="post">
                     <input type="submit" name="modifier" value="Modifier">
+                    <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
                 </form>
-
             </td>
         </tr>
         <?php

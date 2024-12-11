@@ -1,8 +1,13 @@
 <?php
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
+
 //LE NULL MARCHE DANS LE SELECT PROBLEME BDD METTRE A NUL
 //Suppression IMPOSSIBLE DUE AU PARAMETRE DE LA BDD
+
+
+
+
 
 $requete = $bdd->prepare('SELECT livre.titre, livre.annee, livre.resume, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
 LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
@@ -33,9 +38,11 @@ $requete->closeCursor();
 <body>
 <h1>LISTE DES LIVRES</h1>
 <hr>
-<a href="index.php">accueil</a>
-<a href="listeAuteur.php">Liste des auteurs</a>
+<a href="inscription.php">S'inscrire</a>
+<a href="connexion.php">Se connecter</a>
+<a href="listeLivres.php">Liste des Livres</a>
 <hr>
+
 <?php
 if (isset($_SESSION['id_inscrit'])){
     if($_SESSION['id_inscrit'] == 1){
@@ -95,6 +102,7 @@ if (isset($_POST['modifLivre'])){
     <?php
 }
 ?>
+
 <table id= "example" border="1">
 
     <thead>
@@ -139,7 +147,7 @@ if (isset($_POST['modifLivre'])){
                     <?= $liste[$i]['nom']?>
                 </td>
 
-
+            <td>
                 <?php
                 if (isset($_SESSION['id_inscrit'])){
                     if($_SESSION['id_inscrit'] == 1){
@@ -154,11 +162,19 @@ if (isset($_POST['modifLivre'])){
                                 <input type="submit" name="supLivre" value="Supprimer">
                             </form>
                         </td>
+                        <form action="Gestion/modification.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="modifLivre" value="Modifier">
+                        </form>
+                        <form action="Gestion/supression.php" method="post">
+                            <input type="hidden" name="id" value="<?= $liste[$i][0] ?>">
+                            <input type="submit" name="supLivre" value="Supprimer">
+                        </form>
                         <?php
                     }
                 }
                 ?>
-
+            </td>
             </tr>
             <?php
 
@@ -166,17 +182,7 @@ if (isset($_POST['modifLivre'])){
     }
     ?>
 </table>
-<hr>
-<?php
-if (isset($_SESSION['nom'])){
-    echo '<a href="profil.php">Mon profil</a>';
-    echo '<a href="Gestion/gestionDeconnexion.php">se déconnecter</a>';
-} else{
-    echo '<a href="inscription.php">S\'inscrire</a>';
-    echo '<a href="connexion.php">Se connecter</a>';
-}
-?>
-<hr>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
