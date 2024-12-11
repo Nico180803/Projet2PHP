@@ -20,6 +20,14 @@ $requete->closeCursor();
 <h1>LISTE DES AUTEURS</h1>
 <hr>
 <a href="index.php">accueil</a>
+<?php
+if(isset($_SESSION['id_inscrit'])){
+    if ($_SESSION['id_inscrit'] == 1){
+        echo '<a href="listeInscrit.php">Liste des Inscrits</a>';
+        echo '<a href="listeEmprunt.php">Liste des Emprunts</a>';
+    }
+}
+?>
 <a href="listeLivres.php">Liste des livres</a>
 <hr>
 

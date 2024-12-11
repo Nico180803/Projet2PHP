@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['nom'])){
+    header("location:index.php");
+}
+if ($_SESSION['id_inscrit'] != 1){
+    header("location:index.php");
+}
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
 
 
@@ -19,7 +25,9 @@ $requete->closeCursor();
 <h1>LISTE DES INSCRITS</h1>
 <hr>
 <a href="index.php">accueil</a>
+<a href="listeEmprunt.php">Liste des emprunts</a>
 <a href="listeLivres.php">Liste des Livres</a>
+<a href="listeAuteur.php">Liste des Auteurs</a>
 <hr>
 
 <table style="width: 100%;" id="example">
