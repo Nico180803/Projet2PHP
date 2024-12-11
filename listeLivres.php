@@ -41,7 +41,15 @@ $requete->closeCursor();
         <td>Année</td>
         <td>Résumé</td>
         <td>Auteur</td>
-        <td>Action</td>
+        <?php
+        if (isset($_SESSION['id_inscrit'])){
+            if($_SESSION['id_inscrit'] == 1){
+                ?>
+                <td>Action</td>
+                <?php
+            }
+        }
+        ?>
 
     </tr>
     </thead>
