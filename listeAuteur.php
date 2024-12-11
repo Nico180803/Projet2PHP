@@ -2,13 +2,14 @@
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
 
-//J'arrive pas à faire le tri et l'affichage des auteurs.
-
-$requete = $bdd->prepare('SELECT CONCAT(auteur.prenom, " ", auteur.nom) as nom, auteur.date_naissance, pays.nom AS pays FROM auteur
-INNER JOIN pays ON auteur.ref_pays = pays.id_pays');
+$requete = $bdd->prepare('SELECT auteur.id_auteur, CONCAT(auteur.prenom, " ", auteur.nom) as nom, auteur.date_naissance, pays.nom AS pays FROM auteur
+LEFT JOIN pays ON auteur.ref_pays = pays.id_pays');
 $requete->execute();
 $auteur = $requete->fetchAll();
 $requete->closeCursor();
+
+
+if (isset($_SESSION['id_auteur'])) {}
 ?>
 
 <head>
@@ -34,6 +35,7 @@ $requete->closeCursor();
         <td>Auteur</td>
         <td>Date de naissance</td>
         <td>Nationalité</td>
+        <td>Actions</td>
 
     </tr>
     </thead>
@@ -50,6 +52,16 @@ $requete->closeCursor();
             </td>
             <td>
                 <?= $auteur[$i]['pays']?>
+            </td>
+            <td>
+                <form action="Gestion/gestionAuteurs.php" method="post">
+                    <input type="submit" name="supprimer" value="Supprimer">
+                    <input type="hidden" name="auteur" value=<?= $auteur[$i]['id_auteur']?>>
+                </form>
+                <form>
+                    <input type="submit" name="modifier" value="Modifier">
+                </form>
+
             </td>
         </tr>
         <?php
