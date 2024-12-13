@@ -35,14 +35,20 @@ if(isset($_SESSION['id_inscrit'])){
 ?>
 <a href="listeLivres.php">Liste des livres</a>
 <hr>
-<form action="listeAuteur.php" method="post">
-    <table>
-        <tr>
-            <td><input type="submit" name="ajout" value="Ajouter un auteur"> </td>
-        </tr>
-    </table>
-</form>
 <?php
+if (isset($_SESSION['id_inscrit'])){
+    if ($_SESSION['id_inscrit'] == 1){
+        ?>
+        <form action="listeAuteur.php" method="post">
+            <table>
+                <tr>
+                    <td><input type="submit" name="ajout" value="Ajouter un auteur"> </td>
+                </tr>
+            </table>
+        </form>
+        <?php
+    }
+}
 if(isset($_POST['ajout'])){
     ?>
     <form action="Gestion/gestionAuteurs.php" method="post">

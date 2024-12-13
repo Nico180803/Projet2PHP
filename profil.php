@@ -7,7 +7,7 @@ $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8','root','')
 
 $requete = $bdd->prepare('SELECT * FROM inscrit WHERE id_inscrit = :inscrit');
 $requete->execute(array(
-        'inscrit' => $_SESSION['id_inscrit']
+    'inscrit' => $_SESSION['id_inscrit']
 ));
 $info = $requete->fetch();
 $requete->closeCursor();
@@ -47,12 +47,16 @@ if(!isset($_POST['modifierMotDePasse'])){
     </form>
     <?php
 }
-?>
-<form action="Gestion/gestionDeconnexion.php" method="post">
-    <input type="hidden" name="id" value="<?= $_SESSION['id_inscrit'] ?>">
-    <input type="submit" name ="supprimerMonCompte" value="Supprimer mon compte">
-</form>
-<?php
+if (isset($_SESSION['id_inscrit'])){
+    if ($_SESSION['id_inscrit'] != 1){
+        ?>
+        <form action="Gestion/gestionDeconnexion.php" method="post">
+            <input type="hidden" name="id" value="<?= $_SESSION['id_inscrit'] ?>">
+            <input type="submit" name ="supprimerMonCompte" value="Supprimer mon compte">
+        </form>
+        <?php
+    }
+}
 if (isset($_POST['modifier'])) {
     ?>
     <table>
