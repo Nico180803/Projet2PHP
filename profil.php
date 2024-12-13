@@ -16,7 +16,7 @@ $requete->closeCursor();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>Profil</title>
     <link href="CSS/style.css" rel="stylesheet">
 </head>
 <body>
@@ -133,6 +133,10 @@ if (isset($_POST['modifierMotDePasse'])|| isset($_GET['erreur'])) {
     <?php
 }
 ?>
+<br>
+<form action="Gestion/gestionEmprunts.php" method="post">
+    <input type="submit" name="ajout" value="Faire un emprunt">
+</form>
 <hr>
 <a href="Gestion/gestionDeconnexion.php">se déconnecter</a>
 <hr>

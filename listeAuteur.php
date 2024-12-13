@@ -153,7 +153,7 @@ if (isset($_POST['modifier'])) {
     <tbody>
     <?php
     for ($i=0; $i < count($auteur); $i++) {
-        if ($i != 5){
+
             ?>
             <tr>
                 <td>
@@ -188,7 +188,7 @@ if (isset($_POST['modifier'])) {
 
 
             <?php
-        }
+
     }
     ?>
 </table>

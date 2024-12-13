@@ -2,9 +2,6 @@
 session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=mls_projet2;charset=utf8', 'root', '');
 
-//LE NULL MARCHE DANS LE SELECT PROBLEME BDD METTRE A NUL
-//Suppression IMPOSSIBLE DUE AU PARAMETRE DE LA BDD
-
 $requete = $bdd->prepare('SELECT *, CONCAT(auteur.prenom, " ", auteur.nom) as nom FROM livre
 LEFT JOIN ecrire ON livre.id_livre=ecrire.ref_livre
 LEFT JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur
@@ -56,7 +53,38 @@ if (isset($_SESSION['id_inscrit'])){
         <?php
     }
 }
+if (isset($_SESSION['id_inscrit'])){
+    if($_SESSION['id_inscrit'] == 1){
+        ?>
+        <form action="listeLivres.php" method="post">
+            <input type="submit" name="ajoutEdition" value="Ajouter une édition">
+        </form>
+        <?php
+    }
+}
+if (isset($_SESSION['id_inscrit'])){
+    if($_SESSION['id_inscrit'] == 1){
+        ?>
+        <form action="listeLivres.php" method="post">
+            <input type="submit" name="ajoutExemplaire" value="Ajouter un exemplaire">
+        </form>
+        <?php
+    }
+}
+if (isset($_POST['ajoutExemplaire'])){
+    ?>
 
+    <?php
+}
+if (isset($_POST['ajoutEdition'])){
+    ?>
+    <form action="Gestion/gestionLivres.php" method="post">
+        <label>Nom :</label>
+        <input type="text" name="nom" required>
+        <input type="submit" name="ajoutEdition" value="confirmer">
+    </form>
+    <?php
+}
 if (isset($_POST['ajout'])){
 
     ?>
@@ -129,7 +157,7 @@ LEFT JOIN auteur ON ecrire.ref_auteur=auteur.id_auteur WHERE id_livre = :id');
             </tr>
             <tr>
                 <td><input type="hidden" name="id" value="<?= $_POST['id'] ?>">
-                <input type="submit" name="modifLivre" value="Confirmer"></td>
+                    <input type="submit" name="modifLivre" value="Confirmer"></td>
 
             </tr>
         </table>

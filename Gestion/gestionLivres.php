@@ -62,3 +62,11 @@ if(isset($_POST['supLivre'])){
     $requete->closeCursor();
     header('Location: ../listeLivres.php');
 }
+if (isset($_POST['ajoutEdition'])){
+    $req = $bdd->prepare('INSERT INTO edition(nom) VALUES(:nom)');
+    $req->execute(array(
+        'nom' => $_POST['nom'],
+    ));
+    $requete->closeCursor();
+    header('Location: ../listeLivres.php');
+}
