@@ -11,6 +11,21 @@ $requete->execute(array(
 ));
 $info = $requete->fetch();
 $requete->closeCursor();
+
+$requete = $bdd->prepare('SELECT livre.titre, emprunt.date, emprunt.delais, DATE_ADD(emprunt.date, INTERVAL emprunt.delais DAY) AS rendu FROM livre 
+    INNER JOIN exemplaire on livre.id_livre=exemplaire.ref_livre
+    INNER JOIN emprunt on exemplaire.id_exemplaire=emprunt.ref_exemplaire
+    INNER JOIN inscrit ON emprunt.ref_inscrit=inscrit.id_inscrit
+         WHERE inscrit.id_inscrit = :inscrit');
+
+$requete->execute(array(
+    'inscrit' => $_SESSION['id_inscrit']
+));
+
+$emprunt = $requete->fetchAll();
+$requete->closeCursor();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +33,8 @@ $requete->closeCursor();
     <meta charset="UTF-8">
     <title>Profil</title>
     <link href="CSS/style.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
 </head>
 <body>
 <hr>
@@ -133,13 +150,62 @@ if (isset($_POST['modifierMotDePasse'])|| isset($_GET['erreur'])) {
     <?php
 }
 ?>
+
 <br>
 <form action="Gestion/gestionEmprunts.php" method="post">
     <input type="submit" name="ajout" value="Faire un emprunt">
 </form>
+
+
+<p>Livre que vous avez emprunté :</p>
+
+<table id= "example" border="1">
+    <thead>
+    <tr>
+        <td>Titre</td>
+        <td>Date d'emprunt</td>
+        <td>Delais</td>
+        <td>Rendu</td>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    for ($i=0; $i < count($emprunt); $i++) {
+        ?>
+        <tr>
+            <td>
+                <?= $emprunt[$i]['titre']?>
+            </td>
+            <td>
+                <?= $emprunt[$i]['date']?>
+            </td>
+            <td>
+                <?= $emprunt[$i]['delais']." jours"?>
+            </td>
+            <td>
+                <?= $emprunt[$i]['rendu']?>
+            </td>
+        </tr>
+        <?php
+    }
+    ?>
+</table>
+
+
+
+
 <hr>
 <a href="Gestion/gestionDeconnexion.php">se déconnecter</a>
 <hr>
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+<script>
+    new DataTable('#example', {
+        responsive: true
+    });
+</script>
 </html>
 
